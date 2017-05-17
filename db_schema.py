@@ -14,7 +14,7 @@ data_base.query = db_session.query_property()
 
 
 class Residences(data_base):
-    __tablename__ = 'dwellings'
+    __tablename__ = 'residences'
     id = Column(Integer, primary_key=True)
     settlement = Column(String(150), index=True)
     is_under_construction = Column(Boolean)
@@ -24,9 +24,11 @@ class Residences(data_base):
     premise_area = Column(Float)
     has_balcony = Column(Boolean)
     address = Column(Text)
-    construction_year = Column(Date)
+    construction_year = Column(Integer)
     rooms_number = Column(Integer)
-    work_id = Column(Integer)
+    work_id = Column(Integer, unique=True, index=True)
+    is_new = Column(Boolean)
+    is_active = Column(Boolean)
 
     def __str__(self):
         return "residence in {} with work id - {}".format(
