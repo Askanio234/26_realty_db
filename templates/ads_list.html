@@ -120,7 +120,7 @@
             </div>
             <div class="col-sm-8">
               <div class="panel panel-default">
-                {% for ad in ads %}
+                {% for ad in ads.items %}
                   <div class="panel-body">
                     <div class="row">
                       <div class="col-sm-12">
@@ -153,12 +153,27 @@
                 <div class="panel-body">
                   <div class="clearfix">
                     <ul class="pagination pull-right">
+                    {% if ads.has_prev %}
+                      <li><a href="{{ url_for(request.endpoint, page=ads.prev_num) }}"><span>«<span></a></li>
+                    {% else %}
                       <li class="disabled"><span>«</span></li>
-                      <li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
-                      <li><a href="?page=2" role="next">2</a></li>
-                      <li><a href="?page=3" role="next">3</a></li>
-                      <li><a href="?page=4" role="next">4</a></li>
-                      <li><a href="?page=2" role="next">»</a></li>
+                    {% endif %}
+                    {%  for page in ads.iter_pages() %}
+                      {% if page %}
+                        {% if page != ads.page %}
+                          <li><a href="{{ url_for(request.endpoint, page=page) }}">{{ page }}</a></li>
+                        {% else %}
+                          <li class="active"><span>{{ page }}</span></li>
+                        {% endif %}
+                      {% else %}
+                        <li><span class="ellipsis">...</li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if ads.has_next %}
+                      <li><a href="{{ url_for(request.endpoint, page=ads.next_num) }}"><span>»</span></a></li>
+                    {% else %}
+                      <li class="disabled"><span>»</span></li>
+                    {% endif %}
                     </ul>
                   </div>
                 </div>

@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request
-from db_schema import db_session, Residences
+from db_schema import db, Residences
+
 
 app = Flask(__name__)
 
+PER_PAGE = 15
 
+@app.route('/<int:page>')
 @app.route('/')
-def ads_list():
-    return render_template('ads_list.html', ads=db_session.query(Residences).filter(Residences.is_active == True).all()
-    )
+def ads_list(page=1):
+    query = Residences.query.filter(Residences.is_active == True).paginate(page, PER_PAGE)
+    return render_template('ads_list.html', ads=query)
 
 
 @app.route('/search/')
@@ -23,7 +26,7 @@ def filter_list():
         queries.append(Residences.price <= int(user_max_price))
     if is_new_building:
         queries.append(Residences.is_new == True)
-    filtered_list = db_session.query(Residences).filter(*queries).all()
+    filtered_list = db.query(Residences).filter(*queries).all()
 
     return render_template('ads_list.html', ads=filtered_list)
 
