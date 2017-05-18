@@ -1,3 +1,4 @@
+import datetime
 import requests
 from db_schema import Residences, db_session
 
@@ -9,7 +10,9 @@ TODAY = datetime.date.today().year
 
 
 def check_is_a_new(item):
-    return item["under_construction"] or (TODAY - (item["construction_year"] or 0) <= YEARS_NEW) 
+    return item["under_construction"] or \
+    (TODAY - (item["construction_year"] or 0)\
+    <= YEARS_NEW) 
 
 
 def update_or_create_residences(json_data):
