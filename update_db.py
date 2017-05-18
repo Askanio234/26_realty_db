@@ -1,13 +1,15 @@
-import datetime
 import requests
 from db_schema import Residences, db_session
-from sqlalchemy import exc
 
-source_url = "https://devman.org/assets/ads.json"
+SOURCE_URL = "https://devman.org/assets/ads.json"
 
-def convert_to_datetime(year):
-    if year:
-        return datetime.datetime.strptime(str(year), "%Y")
+YEARS_NEW = 2
+
+TODAY = datetime.date.today().year
+
+
+def check_is_a_new(item):
+    return item["under_construction"] or (TODAY - (item["construction_year"] or 0) <= YEARS_NEW) 
 
 
 def update_or_create_residences(json_data):
@@ -28,10 +30,10 @@ def update_or_create_residences(json_data):
                 premise_area = item["premise_area"],
                 has_balcony = item["has_balcony"],
                 address = item["address"],
-                construction_year = convert_to_datetime(
-                                        item["construction_year"]),
+                construction_year = item["construction_year"],
                 rooms_number = item["rooms_number"],
                 work_id = item["id"],
+                is_new = check_is_a_new(item),
                 is_active = True
                 )
             db_session.add(residence_to_add)
@@ -48,5 +50,5 @@ def disable_old_data():
 
 if __name__ == '__main__':
     disable_old_data()
-    json_data = requests.get(source_url).json()
+    json_data = requests.get(SOURCE_URL).json()
     update_or_create_residences(json_data)
