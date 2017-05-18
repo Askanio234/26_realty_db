@@ -1,6 +1,6 @@
 import datetime
 import requests
-from db_schema import Residences, db_session
+from db_schema import Residences, db
 
 SOURCE_URL = "https://devman.org/assets/ads.json"
 
@@ -18,7 +18,7 @@ def check_is_a_new(item):
 def update_or_create_residences(json_data):
     for item in json_data:
         work_id = item["id"]
-        residence = db_session.query(Residences).filter(
+        residence = Residences.query.filter(
                                     Residences.work_id == work_id
                                                         ).first()
         if residence is not None:
@@ -39,16 +39,16 @@ def update_or_create_residences(json_data):
                 is_new = check_is_a_new(item),
                 is_active = True
                 )
-            db_session.add(residence_to_add)
-    db_session.commit()
+            db.session.add(residence_to_add)
+    db.session.commit()
 
 
 def disable_old_data():
-    all_residences = db_session.query(Residences).all()
+    all_residences = Residences.query.all()
     if all_residences is not None:
         for residence in all_residences:
             residence.is_active = False
-        db_session.commit()
+        db.session.commit()
 
 
 if __name__ == '__main__':
