@@ -1,7 +1,38 @@
-# Real Estate Site
+# Католог для агентсва недвижиммости 
 
-{TODO. There will be project description}
+- выгрузка данных из JSON в БД
+- пользователь может фильтровать выдачу объявлений по географии, цене и по типу предложения (новостройка или нет)
 
-# Project Goals
+# Как запустить
+Перед запуском необходимо установить зависимости из requirements.txt:
+```#!bash
 
-The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
+pip install -r requirements.txt
+
+```
+## Создаем БД (SQLite) и модели
+```#!bash
+
+python db_schema.py 
+
+```
+
+## Загружаем данные из JSON
+```#!bash
+
+python update_db.py 
+
+```
+
+## Запуск серверного скрипта
+Запустить локально
+```#!bash
+
+python server.py 
+
+```
+Затем открыть в браузере [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+
+# Цели проекта
+
+Код написан в образовательных целях. Курс веб-разработки - [DEVMAN.org](https://devman.org)
