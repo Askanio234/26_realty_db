@@ -11,8 +11,7 @@ TODAY = datetime.date.today().year
 
 def check_is_a_new(item):
     return item["under_construction"] or \
-    (TODAY - (item["construction_year"] or 0)\
-    <= YEARS_NEW) 
+            (TODAY - (item["construction_year"] or 0) <= YEARS_NEW)
 
 
 def update_or_create_residences(json_data):
@@ -25,19 +24,19 @@ def update_or_create_residences(json_data):
             residence.is_active = True
         else:
             residence_to_add = Residences(
-                settlement = item["settlement"],
-                is_under_construction = item["under_construction"],
-                description = item["description"],
-                price = item["price"],
-                living_area = item["living_area"],
-                premise_area = item["premise_area"],
-                has_balcony = item["has_balcony"],
-                address = item["address"],
-                construction_year = item["construction_year"],
-                rooms_number = item["rooms_number"],
-                work_id = item["id"],
-                is_new = check_is_a_new(item),
-                is_active = True
+                settlement=item["settlement"],
+                is_under_construction=item["under_construction"],
+                description=item["description"],
+                price=item["price"],
+                living_area=item["living_area"],
+                premise_area=item["premise_area"],
+                has_balcony=item["has_balcony"],
+                address=item["address"],
+                construction_year=item["construction_year"],
+                rooms_number=item["rooms_number"],
+                work_id=item["id"],
+                is_new=check_is_a_new(item),
+                is_active=True
                 )
             db.session.add(residence_to_add)
     db.session.commit()

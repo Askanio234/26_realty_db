@@ -2,23 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_reality.sqlite'
+
 db = SQLAlchemy(app)
+
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-# from sqlalchemy import create_engine
-# from sqlalchemy import Column, Integer, String, Boolean, Text, Date, Float
-# from sqlalchemy.orm import scoped_session, sessionmaker
-# from sqlalchemy.ext.declarative import declarative_base
-
-
-# engine = create_engine('sqlite:///db_reality.sqlite')
-
-# db_session = scoped_session(sessionmaker(bind=engine))
-
-# data_base = declarative_base()
-
-# data_base.query = db_session.query_property()
 
 
 class Residences(db.Model):
