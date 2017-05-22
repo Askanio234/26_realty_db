@@ -1,12 +1,27 @@
+import os
+import argparse
 import datetime
-import requests
+import json
 from db_schema import Residences, db
-
-SOURCE_URL = "https://devman.org/assets/ads.json"
 
 YEARS_NEW = 2
 
 TODAY = datetime.date.today().year
+
+
+def load_data(filepath):
+    if os.path.exists(filepath):
+        with open(filepath, "r", encoding="utf-8") as json_file:
+            return json.load(json_file)
+    else:
+        print("Некорректный путь до файла")
+
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input", help="Введите путь до файла")
+    args = parser.parse_args()
+    return args
 
 
 def check_is_a_new(item):
@@ -51,6 +66,6 @@ def disable_old_data():
 
 
 if __name__ == '__main__':
-    disable_old_data()
-    json_data = requests.get(SOURCE_URL).json()
-    update_or_create_residences(json_data)
+    args = get_args()
+    json_file = load_data(args.input)
+    update_or_create_residences(json_file)
