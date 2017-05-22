@@ -103,14 +103,14 @@
                   <div class="form-group ">
                     <div class="input-group">
                       <span class="input-group-addon">от</span>
-                      <input autocomplete="off" type="text" value="" name="min_price" class="form-control js-price-format" placeholder="любая" pattern="\d*">
+                      <input autocomplete="off" type="text" value="{{ min_price|default('', true)  }}" name="min_price" class="form-control js-price-format" placeholder="любая" pattern="\d*">
                       <span class="input-group-addon">р.</span>
                     </div>
                   </div>
                   <div class="form-group ">
                     <div class="input-group">
                       <span class="input-group-addon">до</span>
-                      <input autocomplete="off" type="text" value="" name="max_price" class="form-control js-price-format" placeholder="любая" pattern="\d*">
+                      <input autocomplete="off" type="text" value="{{ max_price|default('', true) }}" name="max_price" class="form-control js-price-format" placeholder="любая" pattern="\d*">
                       <span class="input-group-addon">р.</span>
                     </div>
                   </div>
@@ -186,5 +186,10 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("select[name='oblast_district']").find("option[value='{{ region }}']").attr("selected",true);
+      });
+    </script>
   </body>
 </html>

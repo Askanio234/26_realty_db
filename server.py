@@ -43,7 +43,11 @@ def filter_list(page=1):
     filtered_list = Residences.query.filter(*queries).paginate(page,
                                                     PER_PAGE, False)
 
-    return render_template('ads_list.html', ads=filtered_list)
+    return render_template('ads_list.html',
+                            ads=filtered_list,
+                            region=session['region'],
+                            min_price=session['min_price'],
+                            max_price=session['max_price'])
 
 
 if __name__ == "__main__":
