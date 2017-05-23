@@ -33,7 +33,8 @@ def search():
 @app.route('/results/')
 @app.route('/results/<int:page>')
 def filter_list(page=1):
-    queries = [Residences.settlement == session['region']]
+    queries = [Residences.settlement == session['region'],
+                Residences.is_active == True]
     if session['min_price']:
         queries.append(Residences.price >= session['min_price'])
     if session['max_price']:
