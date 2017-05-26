@@ -83,9 +83,9 @@ def create_new_residences(json_data, inner_corp_ids):
 
 def disable_old_data(inner_corp_ids):
     query = Residences.query.filter(
-                        Residences.inner_corp_id.notin_(inner_corp_ids))
-    for residence in query:
-        residence.is_active = False
+                Residences.inner_corp_id.notin_(inner_corp_ids)).\
+                update({"is_active": False}, synchronize_session=False)
+
     db.session.commit()
 
 
