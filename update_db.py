@@ -28,16 +28,13 @@ def get_args():
     return args
 
 
-def check_is_a_new(item):
+def check_is_a_new_building(item):
     return item["under_construction"] or \
             (TODAY - (item["construction_year"] or 0) <= YEARS_NEW)
 
 
 def get_inner_corp_id_list(json_data):
-    list_of_inner_corp_ids = []
-    for item in json_data:
-        list_of_inner_corp_ids.append(item["id"])
-    return list_of_inner_corp_ids
+    return [item["id"] for item in json_data]
 
 
 def update_residence_row(model, json_dict):
@@ -46,7 +43,7 @@ def update_residence_row(model, json_dict):
             if key != "id":
                 setattr(model, key, value)
                 setattr(model, 'active', True)
-                model.is_new = check_is_a_new(json_dict)
+                model.is_new = check_is_a_new_building(json_dict)
 
 
 def update_residences(json_data, inner_corp_ids):
@@ -77,7 +74,7 @@ def create_new_residences(json_data, inner_corp_ids):
                 construction_year=item["construction_year"],
                 rooms_number=item["rooms_number"],
                 inner_corp_id=item["id"],
-                is_new=check_is_a_new(item),
+                is_new=check_is_a_new_building(item),
                 is_active=True
                 )
                 db.session.add(residence_to_add)
