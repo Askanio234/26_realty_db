@@ -9,12 +9,16 @@ YEARS_NEW = 2
 TODAY = datetime.date.today().year
 
 
-def load_data(filepath):
+def load_file(filepath):
     if os.path.exists(filepath):
-        with open(filepath, "r", encoding="utf-8") as json_file:
-            return json.load(json_file)
+        return open(filepath, "r", encoding="utf-8")
+
     else:
         print("Некорректный путь до файла")
+
+
+def load_data(json_file):
+    return json.load(json_file)
 
 
 def get_args():
@@ -90,8 +94,10 @@ def disable_old_data(inner_corp_ids):
 
 if __name__ == '__main__':
     args = get_args()
-    json_file = load_data(args.input)
-    list_of_inner_ids = get_inner_corp_id_list(json_file)
-    update_residences(json_file, list_of_inner_ids)
-    create_new_residences(json_file, list_of_inner_ids)
+    json_file = load_file(args.input)
+    json_data = load_data(json_file)
+    list_of_inner_ids = get_inner_corp_id_list(json_data)
+    update_residences(json_data, list_of_inner_ids)
+    create_new_residences(json_data, list_of_inner_ids)
     disable_old_data(list_of_inner_ids)
+    json_file.close()
